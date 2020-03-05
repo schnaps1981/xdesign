@@ -11,5 +11,6 @@ public interface SkyLoveApiInterface {
     @POST("/v1/login/email")
     Call<UserAuthModel> userAuth(
             @Body AuthPostData data
+
     );
 }
