@@ -5,27 +5,43 @@ import android.view.View;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.y.xdesign.app.App;
+import com.y.xdesign.model.Model;
 import com.y.xdesign.ui.view.MainActivityView;
 
 import javax.inject.Inject;
 
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 @InjectViewState
 public class Presenter extends MvpPresenter<MainActivityView> {
-    @Inject CompositeDisposable disposable;
+    @Inject
+    CompositeDisposable disposable;
+    @Inject
+    Model model;
 
-    public void loginButtonPressed(View view)
-    {
+    public void loginButtonPressed(View view) {
         getViewState().hideLoginField();
         getViewState().showPasswordField();
     }
 
-    public void passwordButtonPressed(View view, String login, String password)
-    {
+    public void passwordButtonPressed(View view, String login, String password) {
         //начать цепочку запросов к серверу
         Timber.d("Начать запрос");
+        disposable.add(
+                model.authUser(login, password)
+                        .observeOn(Schedulers.io())
+                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .subscribe((token, throwable) -> {
+                            if (throwable == null)
+                                Timber.d("user token - %s", token);
+                            else
+                                Timber.d("Eror - %s", throwable.getLocalizedMessage());
+                        })
+        );
     }
 
     @Override

@@ -4,8 +4,8 @@ import android.app.Application;
 
 import com.y.xdesign.BuildConfig;
 import com.y.xdesign.app.di.components.AppComponent;
+import com.y.xdesign.app.di.components.DaggerAppComponent;
 import com.y.xdesign.app.di.modules.AppContextModule;
-import com.y.xdesign.app.di.DaggerAppComponent;
 
 import org.jetbrains.annotations.NotNull;
 
