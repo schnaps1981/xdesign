@@ -37,12 +37,20 @@ public class Presenter extends MvpPresenter<MainActivityView> {
                         .subscribeOn(AndroidSchedulers.mainThread())
                         .flatMap(user -> model.userPhotos(user))
                         .subscribe((photos, throwable) -> {
-                            if (throwable == null)
+                            if (throwable == null) {
+                                getViewState().hideLoginScreen();
+                                getViewState().showPhotos(photos);
                                 Timber.d("user token - %s", photos);
+                            }
                             else
                                 Timber.d("Error - %s", throwable.getLocalizedMessage());
                         })
         );
+    }
+
+    public void itemClicked(Integer position)
+    {
+
     }
 
 
@@ -60,4 +68,6 @@ public class Presenter extends MvpPresenter<MainActivityView> {
         getViewState().showLoginField();
 
     }
+
+
 }
