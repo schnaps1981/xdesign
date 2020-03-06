@@ -45,6 +45,7 @@ public class Presenter extends MvpPresenter<MainActivityView> {
         );
     }
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();
