@@ -2,15 +2,11 @@ package com.y.xdesign.app.di.components;
 
 import com.y.xdesign.app.di.modules.AESTestModule;
 import com.y.xdesign.app.di.modules.AppContextModule;
-import com.y.xdesign.app.di.modules.AuthPostDataModelModule;
 import com.y.xdesign.app.di.modules.CompositeDisposableModule;
 import com.y.xdesign.app.di.modules.ModelModule;
 import com.y.xdesign.app.di.modules.OkHttpClientModule;
 import com.y.xdesign.app.di.modules.RetrofitModule;
-import com.y.xdesign.model.Model;
 import com.y.xdesign.model.ModelImpl;
-import com.y.xdesign.model.datamodel.AuthPostDataModel;
-import com.y.xdesign.model.utils.AESTest;
 import com.y.xdesign.presenter.Presenter;
 import com.y.xdesign.ui.activity.MainActivity;
 
@@ -24,7 +20,6 @@ import dagger.Component;
         OkHttpClientModule.class,
         RetrofitModule.class,
         ModelModule.class,
-        AuthPostDataModelModule.class,
         AESTestModule.class
 })
 

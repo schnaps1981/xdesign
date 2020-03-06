@@ -35,11 +35,12 @@ public class Presenter extends MvpPresenter<MainActivityView> {
                 model.authUser(login, password)
                         .observeOn(Schedulers.io())
                         .subscribeOn(AndroidSchedulers.mainThread())
-                        .subscribe((token, throwable) -> {
+                        .flatMap(user -> model.userPhotos(user))
+                        .subscribe((photos, throwable) -> {
                             if (throwable == null)
-                                Timber.d("user token - %s", token);
+                                Timber.d("user token - %s", photos);
                             else
-                                Timber.d("Eror - %s", throwable.getLocalizedMessage());
+                                Timber.d("Error - %s", throwable.getLocalizedMessage());
                         })
         );
     }

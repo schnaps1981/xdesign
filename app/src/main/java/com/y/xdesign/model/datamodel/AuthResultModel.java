@@ -2,13 +2,13 @@ package com.y.xdesign.model.datamodel;
 
 //Модель ответа аутентификационного запроса
 public class AuthResultModel {
-        AuthResultUser UserObject;
-        Integer error;
+        private AuthResultUser user;
+        private Integer error;
 
         // Getter Methods
 
         public AuthResultUser getUser() {
-            return UserObject;
+            return user;
         }
 
         public Integer getError() {
@@ -17,8 +17,8 @@ public class AuthResultModel {
 
         // Setter Methods
 
-        public void setUser(AuthResultUser userObject) {
-            this.UserObject = userObject;
+        public void setUser(AuthResultUser user) {
+            this.user = user;
         }
 
         public void setError(Integer error) {
