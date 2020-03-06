@@ -31,7 +31,7 @@ public class ModelImpl implements Model {
 
 
             authPostDataModel.setEmail(login);
-            authPostDataModel.setPassword(cryptoPassword.encode(password));
+            authPostDataModel.setPassword(cryptoPassword.encode(password).trim());
 
             skyLoveApi.userAuth(authPostDataModel).enqueue(new Callback<AuthResultModel>() {
                 @Override
@@ -42,6 +42,7 @@ public class ModelImpl implements Model {
                         emitter.onSuccess(response.body().getUser().getToken());
                     else
                         emitter.onError(new Throwable("Server answer with error = " + error));
+
                 }
 
                 @Override
