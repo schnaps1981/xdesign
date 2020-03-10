@@ -1,77 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     tools:context=".ui.activity.MainActivity">
 
-    <LinearLayout
-        android:id="@+id/ll_enter_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginHorizontal="32dp"
-        android:orientation="horizontal"
-        android:visibility="gone">
+    <include
+        layout="@layout/frame_login"
+        android:visibility="gone" />
 
-        <EditText
-            android:id="@+id/et_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="hhh@hhh.hhh"
-            android:layout_weight="1"/>
+    <include
+        layout="@layout/frame_photos"
+        android:visibility="gone" />
 
-        <Button
-            android:id="@+id/btn_login_ok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ok" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_enter_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginHorizontal="32dp"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <EditText
-            android:id="@+id/et_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="hhhhhh"
-            android:layout_weight="1"/>
-
-        <Button
-            android:id="@+id/btn_password_ok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ok" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/llListPhotos"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/black"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ImageButton
-            android:id="@+id/ib_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_error_outline_black_24dp"
-            android:layout_gravity="right"
-            />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_photos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-</RelativeLayout>
+</FrameLayout>

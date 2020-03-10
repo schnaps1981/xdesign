@@ -12,6 +12,10 @@ public interface MainActivityView extends MvpView {
     void hidePasswordField();
     void showLoginScreen();
     void hideLoginScreen();
+    void showPhotosScreen();
+    void hidePhotosScreen();
     void showPhotos(ArrayList<PhotoModel> photosList);
     void showToast(String message);
+    void showLoginProgress();
+    void hideLoginProgress();
 }

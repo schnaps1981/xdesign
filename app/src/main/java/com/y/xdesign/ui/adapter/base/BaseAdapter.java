@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseAdapter<P> extends RecyclerView.Adapter<BaseViewHolder<P>> {
-    protected ArrayList<P> mDataList = new ArrayList();
+    protected ArrayList<P> mDataList = new ArrayList<P>();
     private BaseAdapterCallback<P> mCallback = null;
-    Boolean hasItems = false;
+    public Boolean hasItems = false;
 
     public void attachCallback(BaseAdapterCallback<P> callback) {
         this.mCallback = callback;

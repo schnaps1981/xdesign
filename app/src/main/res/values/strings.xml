@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">xdesign</string>
     <string name="ok">OK</string>
+    <string name="skylove_hello1">Рады видеть вас на SkyLove!</string>
+    <string name="skylove_hello2">Авторизуйтесь и находите новых друзей</string>
+    <string name="enter_email">Введите e-mail</string>
+    <string name="enter_password">Введите пароль</string>
 </resources>

@@ -31,6 +31,7 @@ public class Presenter extends MvpPresenter<MainActivityView> {
     public void passwordButtonPressed(View view, String login, String password) {
         //начать цепочку запросов к серверу
         Timber.d("Начать запрос");
+        getViewState().showLoginProgress();
         disposable.add(
                 model.authUser(login, password)
                         .observeOn(Schedulers.io())
@@ -38,7 +39,9 @@ public class Presenter extends MvpPresenter<MainActivityView> {
                         .flatMap(user -> model.userPhotos(user))
                         .subscribe((photos, throwable) -> {
                             if (throwable == null) {
+                                getViewState().hideLoginProgress();
                                 getViewState().hideLoginScreen();
+                                getViewState().showPhotosScreen();
                                 getViewState().showPhotos(photos);
                                 Timber.d("user token - %s", photos);
                             }
@@ -48,9 +51,9 @@ public class Presenter extends MvpPresenter<MainActivityView> {
         );
     }
 
-    public void itemClicked(Integer position)
+    public void itemClicked(Integer itemID)
     {
-
+        getViewState().showToast(itemID.toString());
     }
 
 
@@ -65,9 +68,16 @@ public class Presenter extends MvpPresenter<MainActivityView> {
         super.attachView(view);
 
         App.getAppComponent().inject(this);
+        getViewState().hidePhotosScreen();
+        getViewState().showLoginScreen();
         getViewState().showLoginField();
-
+        getViewState().hidePasswordField();
     }
 
-
+    public void photosClosed() {
+        getViewState().hidePhotosScreen();
+        getViewState().showLoginScreen();
+        getViewState().showLoginField();
+        getViewState().hidePasswordField();
+    }
 }
