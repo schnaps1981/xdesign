@@ -34,6 +34,8 @@ public class PhotoViewHolder extends BaseViewHolder<PhotoModel> {
     @Override
     public void bind(PhotoModel model) {
 
+
+
         GlideApp
                 .with(itemView.getContext())
                 .load(model.getPrew())
