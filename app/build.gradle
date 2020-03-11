@@ -77,4 +77,10 @@ dependencies {
 
     //Circullar Progress Drawable
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
+    //Coordinator Layout
+    implementation "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
+
+    //RxBinding
+    implementation 'com.jakewharton.rxbinding3:rxbinding:3.1.0'
 }

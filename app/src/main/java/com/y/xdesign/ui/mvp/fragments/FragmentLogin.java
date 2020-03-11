@@ -19,6 +19,8 @@ import androidx.annotation.Nullable;
 import com.arellomobile.mvp.MvpFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.y.xdesign.R;
 import com.y.xdesign.app.GlideApp;
 import com.y.xdesign.model.datamodel.PhotoModel;
@@ -73,7 +75,11 @@ public class FragmentLogin extends MvpFragment implements LoginView {
 
         unbinder = ButterKnife.bind(this, view);
 
-        GlideApp.with(this).load(R.drawable.background_login).fitCenter().into(ivLoginBackground);
+        int radius = getActivity().getApplicationContext().getResources().getDimensionPixelSize(R.dimen.corner_radius);
+        GlideApp.with(this).load(R.drawable.background_login)
+                .transform(new RoundedCorners(radius))
+                .transform(new CenterCrop())
+                .into(ivLoginBackground);
     }
 
     @Override
