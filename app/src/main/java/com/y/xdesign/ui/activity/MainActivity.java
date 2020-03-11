@@ -63,14 +63,14 @@ public class MainActivity extends MvpActivity implements MainActivityView {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-
+        loadBackground();
         initRecyclerView();
 
-        loadBackground();
+
     }
 
     private void loadBackground() {
-        GlideApp.with(this).load(R.drawable.background_login).override(Target.SIZE_ORIGINAL).into(ivLoginBackground);
+        GlideApp.with(this).load(R.drawable.background_login).fitCenter().into(ivLoginBackground);
     }
 
     private void initRecyclerView() {
