@@ -43,11 +43,11 @@
                     android:fontFamily="@font/sf_ui_display_regular"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center_horizontal"
-                    android:shadowColor="#00000000"
+                    android:shadowColor="@color/shadowColor"
                     android:shadowDy="1.0"
                     android:shadowRadius="1.0"
                     android:text="@string/skylove_hello1"
-                    android:textColor="#ffffffff"
+                    android:textColor="@color/textColorWhite"
                     android:textSize="24sp" />
 
                 <TextView
@@ -56,11 +56,11 @@
                     android:fontFamily="@font/sf_ui_display_light"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center_horizontal"
-                    android:shadowColor="#00000000"
+                    android:shadowColor="@color/shadowColor"
                     android:shadowDy="1.0"
                     android:shadowRadius="1.0"
                     android:text="@string/skylove_hello2"
-                    android:textColor="#ffffffff"
+                    android:textColor="@color/textColorWhite"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -88,8 +88,8 @@
                     android:paddingBottom="2dp"
                     android:singleLine="true"
                     android:text="hhh@hhh.hhh"
-                    android:textColor="#0288D1"
-                    android:textColorHint="#B3E5FC"
+                    android:textColor="@color/textColor"
+                    android:textColorHint="@color/textHintColor"
                     android:textSize="24sp" />
 
                 <Button
@@ -129,8 +129,8 @@
                     android:paddingBottom="2dp"
                     android:singleLine="true"
                     android:text="hhhhhh"
-                    android:textColor="#0288D1"
-                    android:textColorHint="#B3E5FC"
+                    android:textColor="@color/textColor"
+                    android:textColorHint="@color/textHintColor"
                     android:textSize="24sp" />
 
                 <Button

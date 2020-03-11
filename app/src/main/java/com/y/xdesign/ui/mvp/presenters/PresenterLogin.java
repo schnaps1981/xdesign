@@ -1,4 +1,4 @@
-package com.y.xdesign.presenter;
+package com.y.xdesign.ui.mvp.presenters;
 
 import android.view.View;
 
@@ -6,18 +6,18 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.y.xdesign.app.App;
 import com.y.xdesign.model.Model;
-import com.y.xdesign.ui.view.MainActivityView;
+import com.y.xdesign.ui.mvp.views.LoginView;
 
 import javax.inject.Inject;
 
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 @InjectViewState
-public class Presenter extends MvpPresenter<MainActivityView> {
+public class PresenterLogin extends MvpPresenter<LoginView> {
+
     @Inject
     CompositeDisposable disposable;
     @Inject
@@ -40,9 +40,7 @@ public class Presenter extends MvpPresenter<MainActivityView> {
                         .subscribe((photos, throwable) -> {
                             if (throwable == null) {
                                 getViewState().hideLoginProgress();
-                                getViewState().hideLoginScreen();
-                                getViewState().showPhotosScreen();
-                                getViewState().showPhotos(photos);
+                                getViewState().photosLoaded(photos);
                                 Timber.d("user token - %s", photos);
                             }
                             else
@@ -51,33 +49,12 @@ public class Presenter extends MvpPresenter<MainActivityView> {
         );
     }
 
-    public void itemClicked(Integer itemID)
-    {
-        getViewState().showToast(itemID.toString());
-    }
-
-
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        disposable.dispose();
-    }
-
-    @Override
-    public void attachView(MainActivityView view) {
+    public void attachView(LoginView view) {
         super.attachView(view);
-
         App.getAppComponent().inject(this);
-        getViewState().hidePhotosScreen();
-        getViewState().showLoginScreen();
         getViewState().showLoginField();
         getViewState().hidePasswordField();
     }
 
-    public void photosClosed() {
-        getViewState().hidePhotosScreen();
-        getViewState().showLoginScreen();
-        getViewState().showLoginField();
-        getViewState().hidePasswordField();
-    }
 }

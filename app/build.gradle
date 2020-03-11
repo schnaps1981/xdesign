@@ -63,9 +63,9 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
     //Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
 
     //okHttp logging interceptor
     implementation("com.squareup.okhttp3:logging-interceptor:4.2.1")
@@ -75,4 +75,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'androidx.cardview:cardview:1.0.0'
 
+    //Circullar Progress Drawable
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 }
