@@ -1,9 +1,5 @@
 package com.y.xdesign.ui.mvp.fragments;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +16,9 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
 import com.y.xdesign.R;
 import com.y.xdesign.model.datamodel.PhotoModel;
-import com.y.xdesign.ui.mvp.presenters.PresenterPhotos;
 import com.y.xdesign.ui.adapter.PhotoListAdapter;
 import com.y.xdesign.ui.adapter.base.BaseAdapterCallback;
-import com.y.xdesign.ui.mvp.fragments.interfaces.OnFragmentLoginListener;
-import com.y.xdesign.ui.mvp.fragments.interfaces.OnFragmentPhotosListener;
+import com.y.xdesign.ui.mvp.presenters.PresenterPhotos;
 import com.y.xdesign.ui.mvp.views.PhotosView;
 
 import java.util.ArrayList;
@@ -45,7 +39,6 @@ public class FragmentPhotos extends MvpFragment implements PhotosView {
 
     private static final String BUNDLE_PHOTOS_LIST_KEY = "photos_list";
     private ArrayList<PhotoModel> photosList = new ArrayList<>();
-    private OnFragmentPhotosListener onFragmentPhotosListener;
     private Unbinder unbinder;
 
     @Nullable
@@ -93,7 +86,7 @@ public class FragmentPhotos extends MvpFragment implements PhotosView {
     @OnClick(R.id.ib_close)
     public void onClosePhotosPressed(View view)
     {
-        onFragmentPhotosListener.closePhotosList();
+        presenterPhotos.closePhotosList();
     }
 
     @Override
@@ -113,29 +106,6 @@ public class FragmentPhotos extends MvpFragment implements PhotosView {
             return false;
         }
     };
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (Build.VERSION.SDK_INT < 23) {
-            if (activity instanceof OnFragmentLoginListener)
-                onFragmentPhotosListener = (OnFragmentPhotosListener) activity;
-            else
-                throw new RuntimeException(activity.toString()
-                        + " должен реализовывать интерфейс OnFragmentPhotosListener");
-        }
-    }
-
-    @TargetApi(23)
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentLoginListener)
-            onFragmentPhotosListener = (OnFragmentPhotosListener) context;
-        else
-            throw new RuntimeException(context.toString()
-                    + " должен реализовывать интерфейс OnFragmentPhotosListener");
-    }
 
     @Override
     public void onDestroyView() {

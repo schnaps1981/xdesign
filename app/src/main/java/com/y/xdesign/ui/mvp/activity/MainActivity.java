@@ -5,44 +5,58 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.arellomobile.mvp.MvpActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.y.xdesign.R;
-import com.y.xdesign.model.datamodel.PhotoModel;
-import com.y.xdesign.ui.mvp.fragments.FragmentLogin;
-import com.y.xdesign.ui.mvp.fragments.FragmentPhotos;
-import com.y.xdesign.ui.mvp.fragments.interfaces.OnFragmentLoginListener;
-import com.y.xdesign.ui.mvp.fragments.interfaces.OnFragmentPhotosListener;
+import com.y.xdesign.app.App;
+import com.y.xdesign.ui.mvp.presenters.PresenterMainActivity;
+import com.y.xdesign.ui.mvp.views.MainActivityView;
 
-import java.util.ArrayList;
+import org.jetbrains.annotations.NotNull;
 
-import timber.log.Timber;
+import javax.inject.Inject;
 
-public class MainActivity extends MvpActivity implements OnFragmentLoginListener, OnFragmentPhotosListener {
+import ru.terrakok.cicerone.Navigator;
+import ru.terrakok.cicerone.NavigatorHolder;
+import ru.terrakok.cicerone.android.pure.AppNavigator;
+import ru.terrakok.cicerone.commands.Command;
+
+public class MainActivity extends MvpActivity implements  MainActivityView {
+
+    @Inject NavigatorHolder navigatorHolder;
+
+    @InjectPresenter
+    PresenterMainActivity presenterMainActivity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame, FragmentLogin.getInstance())
-                .commit();
+        App.getAppComponent().inject(this);
     }
 
     @Override
-    public void getPhotosList(ArrayList<PhotoModel> photosList) {
-        Timber.d("Получили фоток, шт %s", photosList.size());
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame, FragmentPhotos.getInstance(photosList))
-                .commit();
+    protected void onResume() {
+        super.onResume();
+        navigatorHolder.setNavigator(navigator);
     }
 
     @Override
-    public void closePhotosList() {
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame, FragmentLogin.getInstance())
-                .commit();
+    protected void onPause() {
+        navigatorHolder.removeNavigator();
+        super.onPause();
+    }
+
+    private Navigator navigator = new AppNavigator(this, getFragmentManager(), R.id.frame)
+    {
+        @Override
+        public void applyCommands(@NotNull Command[] commands) {
+            super.applyCommands(commands);
+        }
+    };
+
+    @Override
+    public void onBackPressed() {
+        presenterMainActivity.onBackPressed();
     }
 }
