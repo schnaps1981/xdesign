@@ -10,6 +10,7 @@ import com.y.xdesign.app.di.modules.RetrofitModule;
 import com.y.xdesign.model.ModelImpl;
 import com.y.xdesign.ui.adapter.PhotoViewHolder;
 import com.y.xdesign.ui.mvp.activity.MainActivity;
+import com.y.xdesign.ui.mvp.fragments.FragmentLogin;
 import com.y.xdesign.ui.mvp.presenters.PresenterLogin;
 
 
@@ -36,4 +37,6 @@ public interface AppComponent {
     void inject(ModelImpl model);
 
     void inject(PhotoViewHolder holder);
+
+    void inject(FragmentLogin fragmentLogin);
 }

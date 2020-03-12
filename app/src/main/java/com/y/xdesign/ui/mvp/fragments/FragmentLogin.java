@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -21,7 +22,9 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.jakewharton.rxbinding3.widget.RxTextView;
 import com.y.xdesign.R;
+import com.y.xdesign.app.App;
 import com.y.xdesign.app.GlideApp;
 import com.y.xdesign.model.datamodel.PhotoModel;
 import com.y.xdesign.ui.mvp.presenters.PresenterLogin;
@@ -30,10 +33,15 @@ import com.y.xdesign.ui.mvp.views.LoginView;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import timber.log.Timber;
 
 public class FragmentLogin extends MvpFragment implements LoginView {
 
@@ -47,8 +55,10 @@ public class FragmentLogin extends MvpFragment implements LoginView {
     @BindView(R.id.btn_login_ok) Button btnLogin;
     @BindView(R.id.btn_password_ok) Button btnPassword;
 
-    @InjectPresenter(type = PresenterType.WEAK)
+    @InjectPresenter
     PresenterLogin presenterLogin;
+
+    @Inject CompositeDisposable compositeDisposable;
 
     private OnFragmentLoginListener onFragmentLoginListener;
     private Unbinder unbinder;
@@ -72,6 +82,7 @@ public class FragmentLogin extends MvpFragment implements LoginView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        App.getAppComponent().inject(this);
 
         unbinder = ButterKnife.bind(this, view);
 
@@ -80,6 +91,14 @@ public class FragmentLogin extends MvpFragment implements LoginView {
                 .transform(new RoundedCorners(radius))
                 .transform(new CenterCrop())
                 .into(ivLoginBackground);
+
+        compositeDisposable.add(RxTextView.textChanges(etLogin).subscribeOn(AndroidSchedulers.mainThread()).subscribe(charSequence -> {
+            presenterLogin.checkLoginField(charSequence);
+        }));
+
+        compositeDisposable.add(RxTextView.textChanges(etPassword).subscribeOn(AndroidSchedulers.mainThread()).subscribe(charSequence -> {
+            presenterLogin.checkPasswordField(charSequence);
+        }));
     }
 
     @Override
@@ -127,6 +146,36 @@ public class FragmentLogin extends MvpFragment implements LoginView {
     }
 
     @Override
+    public void showMessage(String message) {
+        Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setFocusLoginField() {
+     //   etPassword.setFocusable(true);
+    }
+
+    @Override
+    public void enableLoginButton() {
+        btnLogin.setEnabled(true);
+    }
+
+    @Override
+    public void disableLoginButton() {
+        btnLogin.setEnabled(false);
+    }
+
+    @Override
+    public void enablePasswordButton() {
+        btnPassword.setEnabled(true);
+    }
+
+    @Override
+    public void disablePasswordButton() {
+        btnPassword.setEnabled(false);
+    }
+
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         if (Build.VERSION.SDK_INT < 23) {
@@ -153,5 +202,6 @@ public class FragmentLogin extends MvpFragment implements LoginView {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        compositeDisposable.dispose();
     }
 }

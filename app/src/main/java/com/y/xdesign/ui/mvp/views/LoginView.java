@@ -13,5 +13,11 @@ public interface LoginView extends MvpView {
     void showLoginProgress();
     void hideLoginProgress();
     void photosLoaded(ArrayList<PhotoModel> photosList);
+    void showMessage(String message);
+    void setFocusLoginField();
+    void enableLoginButton();
+    void disableLoginButton();
+    void enablePasswordButton();
+    void disablePasswordButton();
 
 }

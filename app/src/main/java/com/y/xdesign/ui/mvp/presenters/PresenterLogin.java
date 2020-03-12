@@ -10,6 +10,7 @@ import com.y.xdesign.ui.mvp.views.LoginView;
 
 import javax.inject.Inject;
 
+import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -34,17 +35,19 @@ public class PresenterLogin extends MvpPresenter<LoginView> {
         getViewState().showLoginProgress();
         disposable.add(
                 model.authUser(login, password)
-                        .observeOn(Schedulers.io())
-                        .subscribeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
                         .flatMap(user -> model.userPhotos(user))
-                        .subscribe((photos, throwable) -> {
-                            if (throwable == null) {
-                                getViewState().hideLoginProgress();
-                                getViewState().photosLoaded(photos);
-                                Timber.d("user token - %s", photos);
-                            }
-                            else
-                                Timber.d("Error - %s", throwable.getLocalizedMessage());
+                        .subscribe(photos -> {
+                            getViewState().hideLoginProgress();
+                            getViewState().photosLoaded(photos);
+                            Timber.d("user token - %s", photos);
+                        }, throwable -> {
+                            Timber.d("Error - %s", throwable.getLocalizedMessage());
+                            getViewState().showMessage(throwable.getLocalizedMessage());
+                            getViewState().hidePasswordField();
+                            getViewState().hideLoginProgress();
+                            getViewState().showPasswordField();
                         })
         );
     }
@@ -57,4 +60,19 @@ public class PresenterLogin extends MvpPresenter<LoginView> {
         getViewState().hidePasswordField();
     }
 
+    public void checkLoginField(CharSequence charSequence) {
+        if (charSequence.length() > 0) {
+            getViewState().enableLoginButton();
+        } else {
+            getViewState().disableLoginButton();
+        }
+    }
+
+    public void checkPasswordField(CharSequence charSequence) {
+        if (charSequence.length() > 0) {
+            getViewState().enablePasswordButton();
+        } else {
+            getViewState().disablePasswordButton();
+        }
+    }
 }
