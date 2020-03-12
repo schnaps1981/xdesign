@@ -47,7 +47,7 @@ public class PresenterLogin extends MvpPresenter<LoginView> {
                             getViewState().showMessage(throwable.getLocalizedMessage());
                             getViewState().hidePasswordField();
                             getViewState().hideLoginProgress();
-                            getViewState().showPasswordField();
+                            getViewState().showLoginField();
                         })
         );
     }
