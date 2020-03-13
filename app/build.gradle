@@ -84,4 +84,7 @@ dependencies {
 
     //RxBinding
     implementation 'com.jakewharton.rxbinding3:rxbinding:3.1.0'
+
+    //Cicerone
+    implementation 'ru.terrakok.cicerone:cicerone:5.1.0'
 }

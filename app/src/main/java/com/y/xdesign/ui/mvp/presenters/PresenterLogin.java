@@ -6,6 +6,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.y.xdesign.app.App;
 import com.y.xdesign.model.Model;
+import com.y.xdesign.navigation.Screens;
 import com.y.xdesign.ui.mvp.views.LoginView;
 
 import javax.inject.Inject;
@@ -14,19 +15,20 @@ import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import ru.terrakok.cicerone.Router;
 import timber.log.Timber;
 
 @InjectViewState
 public class PresenterLogin extends MvpPresenter<LoginView> {
 
-    @Inject
-    CompositeDisposable disposable;
-    @Inject
-    Model model;
+    @Inject CompositeDisposable disposable;
+    @Inject Model model;
+    @Inject Router router;
 
     public void loginButtonPressed(View view) {
         getViewState().hideLoginField();
         getViewState().showPasswordField();
+        getViewState().focusPasswordEditText();
     }
 
     public void passwordButtonPressed(View view, String login, String password) {
@@ -40,14 +42,16 @@ public class PresenterLogin extends MvpPresenter<LoginView> {
                         .flatMap(user -> model.userPhotos(user))
                         .subscribe(photos -> {
                             getViewState().hideLoginProgress();
-                            getViewState().photosLoaded(photos);
-                            Timber.d("user token - %s", photos);
+                            //Route to photos
+                            getViewState().clearEditTextFields();
+                            router.navigateTo(new Screens.PhotosScreen(photos));
                         }, throwable -> {
                             Timber.d("Error - %s", throwable.getLocalizedMessage());
                             getViewState().showMessage(throwable.getLocalizedMessage());
                             getViewState().hidePasswordField();
                             getViewState().hideLoginProgress();
-                            getViewState().showPasswordField();
+                            getViewState().showLoginField();
+                            getViewState().focusLoginEditText();
                         })
         );
     }

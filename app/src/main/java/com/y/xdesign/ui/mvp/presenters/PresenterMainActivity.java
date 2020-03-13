@@ -4,29 +4,29 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.y.xdesign.app.App;
 import com.y.xdesign.navigation.Screens;
-import com.y.xdesign.ui.mvp.views.PhotosView;
+import com.y.xdesign.ui.mvp.views.MainActivityView;
 
 import javax.inject.Inject;
 
 import ru.terrakok.cicerone.Router;
 
 @InjectViewState
-public class PresenterPhotos extends MvpPresenter<PhotosView> {
+public class PresenterMainActivity extends MvpPresenter<MainActivityView> {
+
     @Inject
     Router router;
 
+
     @Override
-    public void attachView(PhotosView view) {
+    public void attachView(MainActivityView view) {
         super.attachView(view);
         App.getAppComponent().inject(this);
+
+        router.replaceScreen(new Screens.LoginScreen());
     }
 
-    public void itemClicked(Integer itemID)
+    public void onBackPressed()
     {
-        getViewState().showToast(itemID.toString());
-    }
-
-    public void closePhotosList() {
-        router.backTo(new Screens.LoginScreen());
+        router.exit();
     }
 }

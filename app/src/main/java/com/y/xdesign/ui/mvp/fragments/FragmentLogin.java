@@ -1,9 +1,5 @@
 package com.y.xdesign.ui.mvp.fragments;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,12 +22,8 @@ import com.jakewharton.rxbinding3.widget.RxTextView;
 import com.y.xdesign.R;
 import com.y.xdesign.app.App;
 import com.y.xdesign.app.GlideApp;
-import com.y.xdesign.model.datamodel.PhotoModel;
 import com.y.xdesign.ui.mvp.presenters.PresenterLogin;
-import com.y.xdesign.ui.mvp.fragments.interfaces.OnFragmentLoginListener;
 import com.y.xdesign.ui.mvp.views.LoginView;
-
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -41,7 +33,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import timber.log.Timber;
 
 public class FragmentLogin extends MvpFragment implements LoginView {
 
@@ -55,12 +46,11 @@ public class FragmentLogin extends MvpFragment implements LoginView {
     @BindView(R.id.btn_login_ok) Button btnLogin;
     @BindView(R.id.btn_password_ok) Button btnPassword;
 
-    @InjectPresenter
+    @InjectPresenter(type = PresenterType.WEAK)
     PresenterLogin presenterLogin;
 
     @Inject CompositeDisposable compositeDisposable;
 
-    private OnFragmentLoginListener onFragmentLoginListener;
     private Unbinder unbinder;
 
     public static FragmentLogin getInstance() {
@@ -99,6 +89,7 @@ public class FragmentLogin extends MvpFragment implements LoginView {
         compositeDisposable.add(RxTextView.textChanges(etPassword).subscribeOn(AndroidSchedulers.mainThread()).subscribe(charSequence -> {
             presenterLogin.checkPasswordField(charSequence);
         }));
+
     }
 
     @Override
@@ -141,18 +132,8 @@ public class FragmentLogin extends MvpFragment implements LoginView {
     }
 
     @Override
-    public void photosLoaded(ArrayList<PhotoModel> photosList) {
-        onFragmentLoginListener.getPhotosList(photosList);
-    }
-
-    @Override
     public void showMessage(String message) {
         Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void setFocusLoginField() {
-     //   etPassword.setFocusable(true);
     }
 
     @Override
@@ -176,26 +157,23 @@ public class FragmentLogin extends MvpFragment implements LoginView {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (Build.VERSION.SDK_INT < 23) {
-            if (activity instanceof OnFragmentLoginListener)
-                onFragmentLoginListener = (OnFragmentLoginListener) activity;
-            else
-                throw new RuntimeException(activity.toString()
-                        + " должен реализовывать интерфейс OnFragmentLoginListener");
-        }
+    public void focusPasswordEditText() {
+        etPassword.requestFocus();
+        etPassword.setFocusable(true);
+        etPassword.setFocusableInTouchMode(true);
     }
 
-    @TargetApi(23)
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentLoginListener)
-            onFragmentLoginListener = (OnFragmentLoginListener) context;
-        else
-            throw new RuntimeException(context.toString()
-                    + " должен реализовывать интерфейс OnFragmentLoginListener");
+    public void focusLoginEditText() {
+        etLogin.requestFocus();
+        etLogin.setFocusable(true);
+        etLogin.setFocusableInTouchMode(true);
+    }
+
+    @Override
+    public void clearEditTextFields() {
+        etLogin.setText("");
+        etPassword.setText("");
     }
 
     @Override

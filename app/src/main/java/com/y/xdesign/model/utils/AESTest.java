@@ -2,6 +2,7 @@ package com.y.xdesign.model.utils;
 
 import android.util.Base64;
 
+import java.nio.charset.StandardCharsets;
 import java.security.spec.AlgorithmParameterSpec;
 
 import javax.crypto.Cipher;
@@ -14,10 +15,10 @@ public class AESTest {
 
     public  String encode(String str) {
         try {
-            byte[] textBytes = str.getBytes("UTF-8");
+            byte[] textBytes = str.getBytes(StandardCharsets.UTF_8);
 
             AlgorithmParameterSpec ivSpec = new IvParameterSpec(ivBytes);
-            SecretKeySpec newKey = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+            SecretKeySpec newKey = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "AES");
 
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, newKey, ivSpec);
